@@ -5,16 +5,16 @@ interface Student {
     location: string;
   }
     const student1: Student = {
-        firstName: 'Bartolomeo',
-        lastName: 'Simpson',
-        age: 18,
-        location: 'Springfield'
+        firstName: 'Giovanni',
+        lastName: 'Perez',
+        age: 38,
+        location: 'Sabaneta'
     }
     const student2: Student = {
-      firstName: 'Lisa',
-      lastName: 'Simpson',
+      firstName: 'Jager',
+      lastName: 'Monsalve',
       age: 15,
-      location: 'Springfield',
+      location: 'Sabaneta',
     };
     const studentsList: Array<Student> = [student1, student2];
     const labels: string[] = ['firstName', 'location'];
