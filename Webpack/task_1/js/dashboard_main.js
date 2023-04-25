@@ -13,3 +13,9 @@ function updateCounter() {
 	count += 1;
 	return count;
 }
+
+let debouncedFunc = _.debounce(() => {
+    let count = updateCounter();
+    $('#count').text(`${count} clicks on the button`);
+});
+$('button').on('click', debouncedFunc);
