@@ -7,3 +7,11 @@
 npm install webpack webpack-cli --save-dev
 npm install jquery --save
 npm install lodash --save
+
+
+## 2. Adding CSS & Images
+
+npm install --save-dev css-loader
+npm install file-loader --save-dev
+npm install image-webpack-loader --save-dev
+npm install --save-dev style-loader
