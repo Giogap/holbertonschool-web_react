@@ -7,9 +7,17 @@ module.exports = {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js'
   },
+
   performance: {
   maxAssetSize: 1000000,
   },
+
+  devServer: {
+    contentBase: path.join(__dirname, './public'),
+    compress: true,
+    port: 8564,
+  },
+  
   module: {
     rules: [
       {
