@@ -26,6 +26,13 @@ module.exports = {
     },
   },
 
+  plugins: [
+    new HTMLWebpackPlugin({
+      filename: 'public/index.html'
+    }),
+    new CleanWebpackPlugin()
+  ],
+
   module: {
     rules: [
       {
