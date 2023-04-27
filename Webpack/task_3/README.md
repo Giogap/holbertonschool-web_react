@@ -15,3 +15,8 @@ npm install --save-dev css-loader
 npm install file-loader --save-dev
 npm install image-webpack-loader --save-dev
 npm install --save-dev style-loader
+
+
+npm install webpack-dev-server --save-dev
+npm i --save-dev html-webpack-plugin
+npm install --save-dev clean-webpack-plugin
