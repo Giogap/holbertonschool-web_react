@@ -20,6 +20,12 @@ module.exports = {
     port: 8564,
   },
 
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+
   module: {
     rules: [
       {
