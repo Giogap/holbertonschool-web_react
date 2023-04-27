@@ -4,7 +4,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry : path.resolve(__dirname, 'js/dashboard_main.js'),
+  
+  entry : {
+    all: ["./modules/header/header.js", "./modules/body/body.js", "./modules/footer/footer.js"],
+  },
+
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js'
