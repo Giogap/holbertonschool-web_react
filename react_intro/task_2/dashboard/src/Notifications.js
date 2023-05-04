@@ -8,8 +8,8 @@ function Notifications() {
 	<div className="Notifications">
 	  <button style={{color: '#3a3a3a',
 					fontWeight: 'bold',
-					background: 'none',
-					border: 'none',
+					background: 0,
+					border: 0,
 					fontSize: '15px',
 					position: 'absolute',
 					right: '3px',
