@@ -36,6 +36,10 @@
     ]
   },
   "devDependencies": {
+    "css-loader": "^6.7.3",
+    "image-webpack-loader": "^8.1.0",
+    "source-map-loader": "^4.0.1",
+    "style-loader": "^3.3.2",
     "webpack": "^5.82.0",
     "webpack-dev-server": "^4.15.0"
   }
