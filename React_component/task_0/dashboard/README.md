@@ -74,3 +74,6 @@ npx create-react-app dashboard
 npm start
 
 npm run test-watch?
+
+
+React component
