@@ -1,42 +1,49 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { shallow } from 'enzyme';
+import CourseListRow from './CourseListRow';
 
-const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
-  let tr = undefined;
+describe('<CourseListRow />', () => {
+  it('renders without crashing', () => {
+    const wrapper = shallow(<CourseListRow textFirstCell='test' />);
+    expect(wrapper.exists());
+  });
 
-  if (isHeader === true) {
-    if (textSecondCell === null) {
-      tr = <th colSpan='2'>{textFirstCell}</th>;
-    } else {
-      tr = (
-        <Fragment>
-          <th>{textFirstCell}</th>
-          <th>{textSecondCell}</th>
-        </Fragment>
-      );
-    }
-  }
-  if (isHeader === false) {
-    tr = (
-      <Fragment>
-        <td>{textFirstCell}</td>
-        <td>{textSecondCell}</td>
-      </Fragment>
+  it('renders one cell', () => {
+    const wrapper = shallow(
+      <CourseListRow isHeader={true} textFirstCell='test' />
     );
-  }
+    wrapper.update();
+    const th = wrapper.find('th');
+    expect(th).toHaveLength(1);
+    expect(th.prop('colSpan')).toEqual('2');
+  });
 
-  return <tr>{tr}</tr>;
-};
+  it('renders two cells', () => {
+    const wrapper = shallow(
+      <CourseListRow
+        isHeader={true}
+        textFirstCell='test'
+        textSecondCell='second'
+      />
+    );
+    wrapper.update();
+    const th = wrapper.find('th');
+    expect(th).toHaveLength(2);
+    expect(th.first().text()).toEqual('test');
+    expect(th.at(1).text()).toEqual('second');
+  });
 
-CourseListRow.defaultProps = {
-  isHeader: false,
-  textSecondCell: null,
-};
-
-CourseListRow.propTypes = {
-  isHeader: PropTypes.bool,
-  textFirstCell: PropTypes.string.isRequired,
-  textSecondCell: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-
-export default CourseListRow;
+  it('renders two td', () => {
+    const wrapper = shallow(
+      <CourseListRow
+        isHeader={false}
+        textFirstCell='test'
+        textSecondCell='second'
+      />
+    );
+    wrapper.update();
+    const tr = wrapper.find('tr');
+    expect(tr).toHaveLength(1);
+    expect(tr.children('td')).toHaveLength(2);
+  });
+});
