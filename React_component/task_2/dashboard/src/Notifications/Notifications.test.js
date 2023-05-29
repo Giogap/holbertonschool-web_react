@@ -100,3 +100,17 @@ describe('listNotifications without values', () => {
     );
   });
 });
+
+describe('markAsRead', () => {
+  it('console.log', () => {
+    const wrapper = shallow(<Notifications displayDrawer />);
+    console.log = jest.fn();
+    const instance = wrapper.instance();
+    const id = 0;
+    instance.markAsRead(id);
+    expect(console.log).toHaveBeenCalledWith(
+      `Notification ${id} has been marked as read`
+    );
+    jest.restoreAllMocks();
+  });
+});

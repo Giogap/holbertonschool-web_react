@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function NotificationItem({ type, html, value }) {
+function NotificationItem({ type, html, value, markAsRead, id }) {
   let li;
 
   value
-    ? (li = <li data-notification-type={type}>{value}</li>)
+    ? (li = (
+        <li data-notification-type={type} onClick={() => markAsRead(id)}>
+          {value}
+        </li>
+      ))
     : (li = (
-        <li data-notification-type={type} dangerouslySetInnerHTML={html}></li>
+        <li
+          data-notification-type={type}
+          dangerouslySetInnerHTML={html}
+          onClick={() => markAsRead(id)}
+        ></li>
       ));
 
   return li;
@@ -15,16 +23,20 @@ function NotificationItem({ type, html, value }) {
 
 NotificationItem.defaultProps = {
   type: 'default',
-  value: '',
   html: {},
+  value: '',
+  markAsRead: () => {},
+  id: NaN,
 };
 
 NotificationItem.propTypes = {
   type: PropTypes.string,
-  value: PropTypes.string,
   html: PropTypes.shape({
     __html: PropTypes.string,
   }),
+  value: PropTypes.string,
+  markAsRead: PropTypes.func,
+  id: PropTypes.number,
 };
 
 export default NotificationItem;
