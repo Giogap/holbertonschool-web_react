@@ -77,3 +77,5 @@ npm run test-watch?
 
 
 React component
+
+npm install --save aphrodite
