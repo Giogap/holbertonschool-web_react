@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import './Notifications.css';
 import close_icon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
 import PropTypes from 'prop-types';
 import NotificationItemShape from './NotificationItemShape';
+import './Notifications.css';
+import { StyleSheet, css } from 'aphrodite';
 
 class Notifications extends Component {
   constructor(props) {
@@ -23,11 +24,11 @@ class Notifications extends Component {
     const { displayDrawer, listNotifications } = this.props;
     return (
       <Fragment>
-        <div className='menuItem'>
+        <div className={css(styles.menuItem)}>
           <p>Your notifications</p>
         </div>
         {displayDrawer && (
-          <div className='Notifications'>
+          <div className={css(styles.notifications)}>
             <p>Here is the list of notifications</p>
             <ul>
               {listNotifications.length === 0 && (
@@ -81,5 +82,17 @@ Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
   listNotifications: PropTypes.arrayOf(NotificationItemShape),
 };
+
+const styles = StyleSheet.create({
+  notifications: {
+    border: 'thin dotted #e0344a',
+    padding: '4px 16px',
+    float: 'right',
+  },
+  menuItem: {
+    textAlign: 'right',
+    marginRight: '16px',
+  },
+});
 
 export default Notifications;
