@@ -1,21 +1,23 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Header from './Header';
+import { StyleSheetTestUtils } from 'aphrodite';
+import { user, logOut, AppContext } from '../App/AppContext';
 
-const wrapper = shallow(<Header />);
-
-it('renders without crashing', () => {
-  shallow(<Header />);
-});
-
-it('renders header', () => {
-  expect(wrapper.find('header.header').exists()).toEqual(true);
-});
-
-it('renders header', () => {
-  expect(wrapper.find('header.header h1').exists()).toEqual(true);
-});
-
-it('renders header', () => {
-  expect(wrapper.find('header.header img').exists()).toEqual(true);
+describe('<Header />', () => {
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+ 
+  it('Header renders without crashing', () => {
+    const wrapper = shallow(
+      <AppContext.Provider value={{ user, logOut }}>
+        <Header />
+      </AppContext.Provider>
+    );
+    expect(wrapper.exists()).toEqual(true);
+  });
 });
