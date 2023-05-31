@@ -1,7 +1,8 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import App from './App';
+import App, { listNotificationsInitialState } from './App';
 import { StyleSheetTestUtils } from 'aphrodite';
+import { user, logOut, AppContext } from './AppContext';
 
 describe('<App />', () => {
   beforeAll(() => {
@@ -78,5 +79,14 @@ describe('<App />', () => {
     expect(wrapper.state().displayDrawer).toEqual(true);
     wrapper.instance().handleHideDrawer();
     expect(wrapper.state().displayDrawer).toEqual(false);
+  });
+
+  it('<AppContext.Provider />', () => {
+    const wrapper = shallow(
+      <AppContext.Provider value={{ user, logOut }}>
+        <App />
+      </AppContext.Provider>
+    );
+    expect(wrapper.exists());
   });
 });

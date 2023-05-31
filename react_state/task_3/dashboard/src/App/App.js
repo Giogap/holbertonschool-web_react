@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
@@ -11,6 +11,17 @@ import { getLatestNotification } from '../utils/utils';
 import { StyleSheet, css } from 'aphrodite';
 import { user, logOut, AppContext } from './AppContext';
 
+const listCourses = [
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 },
+];
+export const listNotificationsInitialState = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+];
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +30,13 @@ class App extends Component {
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
-    this.state = { displayDrawer: false, user, logOut: this.logOut };
+    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+    this.state = {
+      displayDrawer: false,
+      user,
+      logOut: this.logOut,
+      listNotifications: listNotificationsInitialState,
+    };
   }
   componentDidMount() {
     window.addEventListener('keydown', this.handleLogout);
@@ -28,10 +45,9 @@ class App extends Component {
     window.removeEventListener('keydown', this.handleLogout);
   }
   handleLogout(e) {
-    if (e.ctrlKey && e.key === 'h') {
-      e.preventDefault();
+    if (e.key === 'h' && e.ctrlKey) {
       alert('Logging you out');
-      this.props.logOut();
+      this.state.logOut();
     }
   }
   handleDisplayDrawer() {
@@ -53,31 +69,30 @@ class App extends Component {
   logOut() {
     this.setState({ user });
   }
+  markNotificationAsRead(id) {
+    this.setState({
+      listNotifications: this.state.listNotifications.filter((notification) => {
+        return notification.id !== id;
+      }),
+    });
+  }
   render() {
-    const listCourses = [
-      { id: 1, name: 'ES6', credit: 60 },
-      { id: 2, name: 'Webpack', credit: 20 },
-      { id: 3, name: 'React', credit: 40 },
-    ];
-    const listNotifications = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 2, type: 'urgent', value: 'New resume available' },
-      { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
-    ];
     const {
       user,
       user: { isLoggedIn },
       logOut,
       displayDrawer,
+      listNotifications,
     } = this.state;
     const value = { user, logOut };
     return (
-      <Fragment>
+      <AppContext.Provider value={value}>
         <Notifications
           listNotifications={listNotifications}
           displayDrawer={displayDrawer}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer}
+          markNotificationAsRead={this.markNotificationAsRead}
         />
         <Header />
         {isLoggedIn ? (
@@ -100,7 +115,7 @@ class App extends Component {
         <div className={css(styles.footer)}>
           <Footer />
         </div>
-      </Fragment>
+      </AppContext.Provider>
     );
   }
 }
