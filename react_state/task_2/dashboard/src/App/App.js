@@ -9,6 +9,7 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import PropTypes from 'prop-types';
 import { getLatestNotification } from '../utils/utils';
 import { StyleSheet, css } from 'aphrodite';
+import { user, logOut, AppContext } from './AppContext';
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    this.state = { displayDrawer: false };
+    this.logIn = this.logIn.bind(this);
+    this.logOut = this.logOut.bind(this);
+    this.state = { displayDrawer: false, user, logOut: this.logOut };
   }
   componentDidMount() {
     window.addEventListener('keydown', this.handleLogout);
@@ -38,6 +41,18 @@ class App extends Component {
   handleHideDrawer() {
     this.setState({ displayDrawer: false });
   }
+  logIn(email, password) {
+    this.setState({
+      user: {
+        email,
+        password,
+        isLoggedIn: true,
+      },
+    });
+  }
+  logOut() {
+    this.setState({ user });
+  }
   render() {
     const listCourses = [
       { id: 1, name: 'ES6', credit: 60 },
@@ -49,8 +64,13 @@ class App extends Component {
       { id: 2, type: 'urgent', value: 'New resume available' },
       { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
     ];
-    const { isLoggedIn } = this.props;
-    const { displayDrawer } = this.state;
+    const {
+      user,
+      user: { isLoggedIn },
+      logOut,
+      displayDrawer,
+    } = this.state;
+    const value = { user, logOut };
     return (
       <Fragment>
         <Notifications
@@ -85,15 +105,9 @@ class App extends Component {
   }
 }
 
-App.defaultProps = {
-  isLoggedIn: false,
-  logOut: () => undefined,
-};
+App.defaultProps = {};
 
-App.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  logOut: PropTypes.func,
-};
+App.propTypes = {};
 
 const styles = StyleSheet.create({
   footer: {
