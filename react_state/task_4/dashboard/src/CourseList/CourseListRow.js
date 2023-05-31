@@ -1,8 +1,14 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 
 const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
+  const [checkbox, setCheckbox] = useState(false);
+
+  const handleClick = () => {
+    setCheckbox(!checkbox);
+  };
+
   const bgColor1 = { backgroundColor: '#f5f5f5ab' };
   const bgColor2 = { backgroundColor: '#deb5b545' };
   let bgColor = undefined;
@@ -25,7 +31,10 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
     bgColor = bgColor1;
     content = (
       <Fragment>
-        <td>{textFirstCell}</td>
+        <td>
+          <input type='checkbox' onClick={handleClick}></input>
+          {textFirstCell}
+        </td>
         <td>{textSecondCell}</td>
       </Fragment>
     );
@@ -50,6 +59,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     borderTop: '1px solid gray',
     borderBottom: '1px solid gray',
+  },
+  rowChecked: {
+    backgroundColor: '#e6e4e4',
   },
 });
 
