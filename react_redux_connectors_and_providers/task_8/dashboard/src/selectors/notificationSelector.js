@@ -1,21 +1,39 @@
-import Immutable from "immutable";
+import { createSelector } from "reselect";
 
-const filterTypeSelected = (state) => {
-  return state.toJS().filter;
+export const filterTypeSelected = (state) => {
+  return state.get("filter");
+};
+export const getNotifications = (state) => {
+  return state.get("notifications");
 };
 
-const getNotifications = (state) => {
-  let notifs = state.get('notifications');
-  return new Immutable.Map(notifs);
-};
+const getNotificationsSelector = (state) => state.notifications;
 
-const getUnreadNotifications = (state) => {
-  let unreadNotifs = Object.values(state.get('notifications')).filter(n => !n.isRead);
-  return new Immutable.Map(unreadNotifs);
-};
+export const getUnreadNotificationsByType = createSelector(
+  getNotificationsSelector,
+  (notifications) => {
+    const messages = notifications.get("messages");
+    const filter = notifications.get("filter");
 
-module.exports = {
-  filterTypeSelected,
-  getNotifications,
-  getUnreadNotifications,
-};
+    if (messages) {
+      let filtered;
+
+      if (filter === "URGENT") {
+        filtered = messages
+          .valueSeq()
+          .filter(
+            (value) =>
+              value.get("isRead") === false && value.get("type") === "urgent"
+          );
+      } else {
+        filtered = messages
+          .valueSeq()
+          .filter((value) => value.get("isRead") === false);
+      }
+
+      return filtered;
+    }
+
+    return messages;
+  }
+);
